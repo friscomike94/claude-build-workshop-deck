@@ -1,0 +1,36 @@
+{
+  "id": "new-project-id",
+  "repo": "owner/repo-name",
+  "title": "새 결과물 제목",
+  "kind": "제작 패턴 이름",
+  "level": "초급",
+  "liveUrl": "https://owner.github.io/repo-name/",
+  "visibility": "Public GitHub Pages",
+  "oneLine": "이 결과물을 한 문장으로 설명",
+  "beginnerGoal": "처음 만드는 사람이 여기서 무엇을 배우는지",
+  "outputFiles": [
+    "index.html"
+  ],
+  "screenshots": [
+    {
+      "file": "new-project.png",
+      "label": "첫 화면",
+      "note": "무엇을 확인해야 하는지"
+    }
+  ],
+  "workflow": [
+    "Claude에게 구조 요청",
+    "파일 생성",
+    "GitHub 업로드",
+    "Pages 배포",
+    "수정 반복"
+  ],
+  "clickGuide": [
+    "GitHub repo 접속",
+    "Add file 클릭",
+    "Upload files 클릭",
+    "Commit changes 클릭"
+  ],
+  "claudePrompt": "여기에 초보자가 복사할 Claude 프롬프트를 넣으세요.",
+  "teachingPoint": "이 결과물에서 가르칠 핵심 한 문장"
+}

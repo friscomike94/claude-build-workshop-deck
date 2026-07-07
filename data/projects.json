@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "title": "Claude로 부동산 AI 결과물 만들기",
+    "subtitle": "AI 초보도 따라 하는 기획 → 제작 → GitHub 배포 실습",
+    "design": "Mono Signal",
+    "version": "0.1.0",
+    "lastUpdated": "2026-07-07",
+    "updateRule": "새 결과물은 projects 배열에 객체 하나를 추가하고, 캡처 이미지는 assets/screenshots에 넣는다."
+  },
+  "projects": [
+    {
+      "id": "apt-all-in-one",
+      "repo": "earthskyisbig/apt-all-in-one",
+      "title": "아파트 자동 분석 리포트 생성기",
+      "kind": "리포트 자동화",
+      "level": "중급 입문",
+      "liveUrl": "",
+      "visibility": "Private repo",
+      "oneLine": "입력 데이터(JSON)를 넣으면 실거래 흐름과 아파트 가치를 HTML 리포트로 뽑아내는 자동화 도구",
+      "beginnerGoal": "웹앱이 아니라 “자동 리포트 생성기”도 Claude로 만들 수 있다는 감각을 익힌다.",
+      "outputFiles": [
+        "skills/realprice-flow/scripts/report_template.py",
+        "skills/apt-value/scripts/build_report.py",
+        "docs/previews/*.html",
+        "docs/previews/*.png"
+      ],
+      "screenshots": [
+        {
+          "file": "apt-report-preview.png",
+          "label": "리포트 미리보기 화면",
+          "note": "Private repo라 공개 URL 대신 preview HTML/PNG로 설명"
+        }
+      ],
+      "workflow": [
+        "Claude에게 입력 데이터 구조를 먼저 설계시킨다.",
+        "샘플 JSON으로 리포트 목차를 만든다.",
+        "HTML 템플릿을 만들고 Mono Signal 스타일을 입힌다.",
+        "더미 데이터로 preview HTML을 생성한다.",
+        "GitHub docs/previews 폴더에 HTML/PNG를 올린다.",
+        "수정 요청은 “이 섹션 추가/삭제/강조” 단위로 한다."
+      ],
+      "clickGuide": [
+        "GitHub repo 접속",
+        "Add file 클릭",
+        "Upload files 클릭",
+        "docs/previews 폴더 경로로 preview HTML/PNG 업로드",
+        "Commit changes 클릭"
+      ],
+      "claudePrompt": "나는 아파트 실거래 분석 리포트를 자동으로 만들고 싶어. 입력 JSON 구조, 리포트 목차, HTML 템플릿, 샘플 데이터까지 초보자가 따라할 수 있게 단계별로 만들어줘. 디자인은 Mono Signal 스타일로 해줘.",
+      "teachingPoint": "자동화는 “AI가 분석한다”보다 “입력값을 정하고 출력 양식을 고정한다”가 먼저다."
+    },
+    {
+      "id": "auction-mbti",
+      "repo": "friscomike94/auction_mbti",
+      "title": "부동산 투자성향 MBTI 웹앱",
+      "kind": "진단형 웹앱",
+      "level": "초급",
+      "liveUrl": "https://friscomike94.github.io/auction_mbti/",
+      "visibility": "Public GitHub Pages",
+      "oneLine": "질문에 답하면 매매/경매 투자성향 코드를 계산하고 결과 프로필을 보여주는 단일 HTML 웹앱",
+      "beginnerGoal": "질문, 점수, 유형, 결과 화면이 어떻게 하나의 HTML 파일로 연결되는지 이해한다.",
+      "outputFiles": [
+        "index.html",
+        "부동산투자성향테스트.html",
+        "README.md"
+      ],
+      "screenshots": [
+        {
+          "file": "auction-mbti-home.png",
+          "label": "투자성향 테스트 첫 화면",
+          "note": "경매 트랙 3축, 총 24유형 표기 확인"
+        }
+      ],
+      "workflow": [
+        "Claude에게 유형 축을 먼저 설계시킨다.",
+        "축별 질문과 점수 규칙을 만든다.",
+        "결과 프로필과 경고 문구를 작성한다.",
+        "HTML/CSS/JS를 index.html 한 파일로 합친다.",
+        "GitHub에 index.html 업로드 후 Pages로 배포한다.",
+        "문항 삭제/축 변경은 DATA JSON과 결과 프로필을 함께 수정한다."
+      ],
+      "clickGuide": [
+        "GitHub repo 접속",
+        "Add file → Upload files 클릭",
+        "index.html 드래그",
+        "Commit summary 입력",
+        "Commit changes 클릭",
+        "Settings → Pages에서 main branch 배포 확인"
+      ],
+      "claudePrompt": "부동산 투자성향 테스트 웹앱을 만들고 싶어. 질문, 점수, 유형코드, 결과 프로필이 들어간 단일 index.html을 만들어줘. 초보자가 GitHub Pages에 올릴 수 있게 파일 하나로 완성해줘.",
+      "teachingPoint": "진단형 웹앱은 “질문 데이터 → 점수 계산 → 코드 생성 → 결과 프로필 매칭”의 흐름이다."
+    },
+    {
+      "id": "auction-crwal0629",
+      "repo": "friscomike94/auction-crwal0629",
+      "title": "Auction Signal 데이터 대시보드",
+      "kind": "데이터 대시보드",
+      "level": "초급~중급",
+      "liveUrl": "https://friscomike94.github.io/auction-crwal0629/",
+      "visibility": "Public GitHub Pages",
+      "oneLine": "경매 데이터를 카드, 표, 신호 영역으로 보여주는 Mono Signal 대시보드",
+      "beginnerGoal": "데이터가 없어도 더미 데이터로 먼저 대시보드 화면을 만들고 나중에 실제 데이터로 교체하는 방법을 익힌다.",
+      "outputFiles": [
+        "docs/index.html"
+      ],
+      "screenshots": [
+        {
+          "file": "auction-crwal-dashboard.png",
+          "label": "Auction Signal 대시보드",
+          "note": "핵심 지표 카드와 테이블 구조 확인"
+        }
+      ],
+      "workflow": [
+        "Claude에게 보여줄 지표를 먼저 정하게 한다.",
+        "더미 데이터 배열을 만든다.",
+        "상단 KPI 카드, 중간 패널, 하단 테이블 구조를 만든다.",
+        "docs/index.html로 저장한다.",
+        "GitHub Pages에서 docs 폴더를 배포한다.",
+        "나중에 데이터 컬럼만 바꿔 재사용한다."
+      ],
+      "clickGuide": [
+        "repo 안에 docs 폴더 생성",
+        "docs/index.html 업로드",
+        "Settings 클릭",
+        "Pages 클릭",
+        "Source를 main / docs로 설정",
+        "배포 URL 접속"
+      ],
+      "claudePrompt": "경매 데이터 대시보드를 만들고 싶어. 더미 데이터로 먼저 상단 지표 카드 4개, 위험 신호 패널, 상세 테이블이 있는 docs/index.html을 만들어줘. 디자인은 Mono Signal 스타일로 해줘.",
+      "teachingPoint": "대시보드는 예쁜 표가 아니라 “어떤 판단을 빠르게 하게 할지”를 정하는 화면이다."
+    },
+    {
+      "id": "malso-standard-rights-deck",
+      "repo": "friscomike94/malso-standard-rights-deck",
+      "title": "말소기준권리 강의용 웹덱",
+      "kind": "HTML 강의덱",
+      "level": "초급",
+      "liveUrl": "https://friscomike94.github.io/malso-standard-rights-deck/",
+      "visibility": "Public GitHub Pages",
+      "oneLine": "PPT 없이 HTML 한 파일로 만든 16:9 강의 슬라이드 덱",
+      "beginnerGoal": "강의 원고를 Claude에게 주고 웹에서 넘길 수 있는 강의덱으로 바꾸는 방법을 익힌다.",
+      "outputFiles": [
+        "index.html"
+      ],
+      "screenshots": [
+        {
+          "file": "malso-deck.png",
+          "label": "말소기준권리 웹덱",
+          "note": "좌우 버튼/키보드로 넘기는 웹 슬라이드"
+        }
+      ],
+      "workflow": [
+        "강의 주제를 10장 목차로 나눈다.",
+        "각 슬라이드의 핵심 문장과 예시를 쓴다.",
+        "Claude에게 HTML 슬라이드 덱으로 변환시킨다.",
+        "16:9 비율과 글자 넘침을 확인한다.",
+        "index.html로 GitHub Pages에 배포한다.",
+        "강의 녹화 전 화면비와 글자 크기를 점검한다."
+      ],
+      "clickGuide": [
+        "Claude에 강의 주제 입력",
+        "10장 슬라이드 목차 요청",
+        "HTML 한 파일로 만들어달라고 요청",
+        "GitHub 새 repo 또는 기존 repo에 index.html 업로드",
+        "Settings → Pages 배포 확인"
+      ],
+      "claudePrompt": "말소기준권리를 처음 배우는 사람을 위한 10장짜리 강의덱을 만들어줘. 각 슬라이드는 제목, 핵심 설명, 예시, 주의점을 포함하고 HTML 한 파일로 만들어줘. 좌우 버튼과 키보드 화살표로 넘길 수 있게 해줘.",
+      "teachingPoint": "PPT를 먼저 만들 필요 없다. Claude에게 원고 구조를 주면 HTML 슬라이드 덱부터 만들 수 있다."
+    }
+  ]
+}
