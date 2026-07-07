@@ -1,47 +1,56 @@
-# 화면 캡처 체크리스트
+# Claude Code 강의용 화면 캡처 체크리스트
 
-## 공통
-- 16:9 브라우저 화면 기준
-- 너무 많은 UI를 한 화면에 넣지 않기
-- 초보자가 눌러야 하는 버튼이 보이게 캡처
-- 캡처 후 파일명은 영어 소문자 + 하이픈
+## 이 덱에서 필요한 캡처
 
-## Claude 캡처
-1. 새 대화 시작 화면
-2. 프롬프트 입력창
-3. Claude가 파일 구조를 제안하는 장면
-4. Claude가 코드를 생성하는 장면
+GitHub 버튼 캡처보다 **Claude Code에 입력하는 장면**이 중요합니다.
 
-## GitHub 캡처
-1. repo 첫 화면
-2. Add file 버튼
-3. Upload files 화면
-4. Commit changes 버튼
-5. Settings → Pages 화면
-6. 배포 URL 확인 화면
+## 공통 캡처
 
-## 프로젝트별 추천 캡처
+1. 터미널에서 프로젝트 폴더 만드는 장면
+   - 예: `mkdir auction_mbti`
+   - 예: `cd auction_mbti`
+2. 터미널에서 Claude Code 실행하는 장면
+   - 예: `claude`
+3. Claude Code 입력창에 프롬프트를 붙여넣은 장면
+4. Claude Code가 파일을 생성/수정하는 장면
+5. 파일 생성 후 터미널에서 결과 확인 명령을 치는 장면
+   - 예: `open index.html`
+   - 예: `open docs/index.html`
+6. 브라우저에서 완성 결과물이 열린 장면
+
+## 캡처 원칙
+
+- 16:9 비율로 캡처합니다.
+- 터미널 글자는 크게 보이게 합니다.
+- 한 화면에 너무 많은 명령을 넣지 않습니다.
+- 입력해야 할 명령은 라임색 박스나 하이라이트로 강조합니다.
+- Claude Code 프롬프트는 복사 가능한 텍스트로 슬라이드에 따로 넣습니다.
+
+## 프로젝트별 캡처
 
 ### apt-all-in-one
-- preview HTML 리포트 첫 화면
-- docs/previews 폴더 화면
-- 리포트 섹션 구조가 보이는 화면
+- `mkdir apt-all-in-one && cd apt-all-in-one && claude` 입력 장면
+- PLAN.md 요청 프롬프트 입력 장면
+- build_report.py 생성 후 실행 명령 장면
+- HTML 리포트 preview 화면
 
 ### auction_mbti
-- 첫 화면
-- 경매 트랙 선택 화면
-- 질문 화면
-- 결과 화면
-- GitHub Pages URL
+- `mkdir auction_mbti && cd auction_mbti && claude` 입력 장면
+- 진단 구조 설계 프롬프트 입력 장면
+- index.html 생성 요청 장면
+- `open index.html` 실행 장면
+- 테스트 첫 화면/결과 화면
 
 ### auction-crwal0629
-- 대시보드 첫 화면
-- KPI 카드 영역
-- 테이블 영역
-- docs/index.html repo 구조
+- `mkdir auction-crwal0629 && cd auction-crwal0629 && claude` 입력 장면
+- 대시보드 설계 프롬프트 입력 장면
+- docs/index.html 생성 요청 장면
+- `open docs/index.html` 실행 장면
+- 대시보드 화면
 
 ### malso-standard-rights-deck
-- 첫 슬라이드
-- 중간 개념 설명 슬라이드
-- 좌우 버튼이 보이는 화면
-- GitHub Pages URL
+- `mkdir malso-standard-rights-deck && cd malso-standard-rights-deck && claude` 입력 장면
+- SLIDE_PLAN.md 요청 장면
+- HTML 슬라이드 생성 요청 장면
+- `open index.html` 실행 장면
+- 웹덱 첫 화면
