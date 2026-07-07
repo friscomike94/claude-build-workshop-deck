@@ -1,73 +1,55 @@
-# Claude Code Build Workshop Deck
+# Claude Code 결과물의 진짜 구조 이해하기
 
-Claude Code에 어떤 명령어와 프롬프트를 넣으면 부동산 AI 결과물이 만들어지는지 가르치는 HTML 강의덱입니다.
+프롬프트 한 줄이 아니라 **Claude Code 하네스 구조**에서 결과물이 어떻게 나오는지 가르치는 HTML 강의덱입니다.
 
-## 강의 목적
+## 이 덱의 핵심 주장
 
-이 덱은 GitHub 사용법 강의가 아닙니다.
-핵심은 **Claude Code 터미널에서 실제로 무엇을 입력해야 결과물이 만들어지는지**를 초보자가 따라 할 수 있게 보여주는 것입니다.
+같은 프롬프트를 새 컴퓨터의 Claude Code에 넣어도 우리 결과물은 안 나옵니다.
+결과물은 `.claude` 하네스(에이전트·스킬·CLAUDE.md)와 `_workspace` 파이프라인에서 나오기 때문입니다.
+그래서 재현하려면 프롬프트가 아니라 **repo(=하네스)를 통째로 가져가야** 합니다.
+
+## Claude Code 프로젝트 공통 구조
+
+```
+CLAUDE.md          # 이 프로젝트가 무엇이고 어떤 트리거에 무슨 스킬을 쓰는지(하네스 지도)
+.claude/skills/    # 재사용 방법론 + 오케스트레이터(작업 순서·규칙)
+.claude/agents/    # 역할별 전문 에이전트(설계·제작·검증)
+_workspace/        # 에이전트들이 만든 중간 산출물(설계·데이터·QA)
+최종 산출물         # index.html / 스크래퍼 / 대시보드 등
+```
+
+## 두 가지 제작 패턴
+
+- **패턴 A — 멀티에이전트 하네스** (auction_mbti): 복잡한 산출물을 전문 에이전트 6명이 파이프라인으로 만든다.
+- **패턴 B — 시행착오 후 스킬 박제** (auction-crwal0629): 까다로운 자동화를 직접 뚫은 뒤 성공 패턴을 스킬로 저장해 재사용한다.
+
+## 덱에 포함된 결과물
+
+- friscomike94/auction_mbti — 진단형 웹앱 (멀티에이전트 하네스)
+- friscomike94/auction-crwal0629 — 데이터 자동화 (시행착오→스킬)
+- friscomike94/malso-standard-rights-deck — 단일 파일 HTML 덱
+- earthskyisbig/apt-all-in-one — 리포트 자동화 (Private, 구조만 설명)
 
 ## 파일 구조
 
 ```
-index.html                  # GitHub Pages에서 열리는 강의덱
-data/projects.json          # 결과물별 Claude Code 명령/프롬프트 데이터
-assets/screenshots/         # 완성 결과물 화면 캡처
-assets/prompts/             # 긴 프롬프트 보조 자료 저장 폴더
-CAPTURE_GUIDE.md            # 강의용 화면 캡처 기준
+index.html            # 강의덱
+data/projects.json    # 각 결과물의 실제 구조·제작흐름·재현법 데이터
 ```
-
-## 덱에 포함된 결과물
-
-- earthskyisbig/apt-all-in-one: 리포트 자동화
-- friscomike94/auction_mbti: 진단형 웹앱
-- friscomike94/auction-crwal0629: 데이터 대시보드
-- friscomike94/malso-standard-rights-deck: HTML 강의덱
-
-## 한 프로젝트의 기본 강의 흐름
-
-1. 터미널에서 작업 폴더 생성
-2. `claude` 명령으로 Claude Code 실행
-3. Claude Code에 “먼저 계획만 세워줘” 프롬프트 입력
-4. 계획 확인 후 “이제 실제 파일을 만들어줘” 프롬프트 입력
-5. 터미널에서 `open index.html` 또는 실행 명령으로 결과 확인
-6. Claude Code에 수정 요청 입력
-7. 필요하면 GitHub Pages로 배포
 
 ## 새 결과물 추가법
 
-`data/projects.json`의 `projects` 배열에 새 객체를 추가합니다.
-중요한 필드는 `commandBlocks`입니다.
+`data/projects.json`의 `projects` 배열에 객체 하나를 추가합니다.
+반드시 실제 repo 구조 기준으로 다음을 채웁니다.
 
-예시:
+- `realStructure`: 실제 핵심 파일과 역할 (git tree 기준)
+- `buildMethod`: 제작 패턴
+- `pipeline`: 실제 제작 흐름
+- `reproduce`: 새 컴퓨터에서 재현하는 실제 명령/프롬프트
+- `keyLesson`: 이 케이스의 핵심 교훈
 
-```json
-{
-  "id": "new-project",
-  "repo": "owner/repo",
-  "title": "새 결과물",
-  "kind": "제작 패턴",
-  "commandBlocks": [
-    {
-      "label": "1. 작업 폴더 만들기",
-      "type": "terminal",
-      "code": "mkdir new-project\ncd new-project\nclaude",
-      "say": "터미널에서 그대로 입력합니다."
-    },
-    {
-      "label": "2. Claude Code에 붙여넣기",
-      "type": "claude",
-      "code": "너는 ... 바로 코딩하지 말고 먼저 PLAN.md를 만들어줘.",
-      "say": "Claude Code 입력창에 그대로 붙여넣습니다."
-    }
-  ]
-}
-```
+## 원칙
 
-## 강의 원칙
-
-- “어디를 클릭하나”보다 “무엇을 입력하나”를 보여준다.
-- 한 슬라이드에는 하나의 명령 또는 하나의 프롬프트만 보여준다.
-- 초보자가 복사해서 그대로 쓸 수 있어야 한다.
-- Claude Code가 파일을 만든 뒤에는 반드시 확인 명령을 보여준다.
-- 수정 요청 예시까지 보여줘야 실제 제작법이 된다.
+- 이상적인 프롬프트가 아니라 **실제 구조**를 보여준다.
+- 재현 열쇠는 최종 산출물이 아니라 `.claude` 폴더/스킬임을 강조한다.
+- 디자인(폰트·색) 지시는 넣지 않는다. 로컬 폰트 의존이라 새 컴퓨터에서 그대로 재현되지 않기 때문이다.

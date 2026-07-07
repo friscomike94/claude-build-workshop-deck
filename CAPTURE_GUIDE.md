@@ -1,56 +1,43 @@
-# Claude Code 강의용 화면 캡처 체크리스트
+# 강의용 화면 캡처 체크리스트 (구조 이해 중심)
 
-## 이 덱에서 필요한 캡처
+이 덱은 "어디를 클릭" 캡처가 아니라 **repo 구조와 Claude Code 실행 장면**을 보여주는 것이 목적입니다.
 
-GitHub 버튼 캡처보다 **Claude Code에 입력하는 장면**이 중요합니다.
+## 캡처하면 좋은 장면
 
-## 공통 캡처
+1. repo의 파일 트리 (특히 .claude/agents, .claude/skills, _workspace)
+   - GitHub repo 화면 또는 `ls -a`, `tree .claude` 터미널 출력
+2. CLAUDE.md 내용 (하네스 정의·변경 이력)
+3. 오케스트레이터 SKILL.md의 파이프라인 설명 부분
+4. `git clone` 후 `claude` 실행 장면
+5. Claude Code가 .claude 스킬을 인식/실행하는 장면
+6. _workspace에 중간 산출물이 쌓이는 장면
+7. 최종 산출물(웹앱/대시보드/CSV) 결과 화면
 
-1. 터미널에서 프로젝트 폴더 만드는 장면
-   - 예: `mkdir auction_mbti`
-   - 예: `cd auction_mbti`
-2. 터미널에서 Claude Code 실행하는 장면
-   - 예: `claude`
-3. Claude Code 입력창에 프롬프트를 붙여넣은 장면
-4. Claude Code가 파일을 생성/수정하는 장면
-5. 파일 생성 후 터미널에서 결과 확인 명령을 치는 장면
-   - 예: `open index.html`
-   - 예: `open docs/index.html`
-6. 브라우저에서 완성 결과물이 열린 장면
+## 원칙
 
-## 캡처 원칙
+- 프롬프트 한 줄보다 **구조(폴더 트리)**를 먼저 보여준다.
+- "재현하려면 이 폴더가 필요하다"를 시각적으로 강조한다.
+- 16:9 화면, 터미널 글자는 크게.
+- 폰트·색 등 디자인은 강의 포인트가 아니므로 강조하지 않는다.
 
-- 16:9 비율로 캡처합니다.
-- 터미널 글자는 크게 보이게 합니다.
-- 한 화면에 너무 많은 명령을 넣지 않습니다.
-- 입력해야 할 명령은 라임색 박스나 하이라이트로 강조합니다.
-- Claude Code 프롬프트는 복사 가능한 텍스트로 슬라이드에 따로 넣습니다.
+## 프로젝트별
 
-## 프로젝트별 캡처
+### auction_mbti (멀티에이전트 하네스)
+- .claude/agents 6개 파일 목록
+- rmbti-orchestrator SKILL.md 파이프라인 도식
+- _workspace의 01_typology ~ 99_qa_report 목록
+- 최종 테스트 화면
 
-### apt-all-in-one
-- `mkdir apt-all-in-one && cd apt-all-in-one && claude` 입력 장면
-- PLAN.md 요청 프롬프트 입력 장면
-- build_report.py 생성 후 실행 명령 장면
-- HTML 리포트 preview 화면
+### auction-crwal0629 (시행착오→스킬)
+- skill/SKILL.md의 "절대 하지 말 것" 목록
+- trial-and-error.md
+- scrape 실행 후 CSV 생성 장면
+- docs/index.html 대시보드
 
-### auction_mbti
-- `mkdir auction_mbti && cd auction_mbti && claude` 입력 장면
-- 진단 구조 설계 프롬프트 입력 장면
-- index.html 생성 요청 장면
-- `open index.html` 실행 장면
-- 테스트 첫 화면/결과 화면
+### malso-standard-rights-deck (단일 파일)
+- index.html 하나뿐인 구조
+- 슬라이드 화면
 
-### auction-crwal0629
-- `mkdir auction-crwal0629 && cd auction-crwal0629 && claude` 입력 장면
-- 대시보드 설계 프롬프트 입력 장면
-- docs/index.html 생성 요청 장면
-- `open docs/index.html` 실행 장면
-- 대시보드 화면
-
-### malso-standard-rights-deck
-- `mkdir malso-standard-rights-deck && cd malso-standard-rights-deck && claude` 입력 장면
-- SLIDE_PLAN.md 요청 장면
-- HTML 슬라이드 생성 요청 장면
-- `open index.html` 실행 장면
-- 웹덱 첫 화면
+### apt-all-in-one (Private)
+- skills/realprice-flow, skills/apt-value 구조도(설명용)
+- 리포트 미리보기
