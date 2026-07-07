@@ -1,10 +1,10 @@
 {
   "meta": {
-    "title": "우리 결과물처럼 만드는 정확한 레시피",
-    "subtitle": "빈 폴더에서 시작해 Claude Code에 무엇을 넣어야 하는지, 파일 구조와 검수 기준까지 그대로 따라 하기",
-    "version": "1.1.0",
+    "title": "검증해서 다시 만든 Claude 제작 레시피",
+    "subtitle": "빈 폴더 재현 테스트를 거쳐, 원본과 맞는 구조·기능·검수 기준만 남긴 설명서",
+    "version": "1.2.0-verified",
     "lastUpdated": "2026-07-07",
-    "howToUse": "이 덱은 결과물별 제작 레시피입니다. 초록 박스는 터미널 입력, 파란 박스는 Claude Code 붙여넣기, 회색 단계는 GitHub에서 클릭할 순서입니다. “비슷한 것”이 아니라 지정한 파일구조와 검수 기준을 만족하는 결과물을 만드는 것이 목표입니다."
+    "howToUse": "각 케이스는 실제로 빈 폴더에서 재현해 본 뒤 보강했습니다. 초록 박스는 터미널 입력, 파란 박스는 Claude Code 붙여넣기, 회색 단계는 GitHub 클릭입니다. “그럴듯한 설명”이 아니라 원본 repo의 필수 파일 구조와 기능 검수 기준을 만족하는 것이 목표입니다."
   },
   "prerequisites": {
     "title": "시작 전 준비",
@@ -50,14 +50,14 @@
       "title": "auction_mbti 정확히 만드는 법",
       "kind": "진단형 웹앱",
       "liveUrl": "https://friscomike94.github.io/auction_mbti/",
-      "whatItIs": "매매/경매 투자성향 질문에 답하면 유형 코드와 결과 프로필이 나오는 단일 HTML 웹앱입니다. 핵심은 질문이 아니라 DATA 구조, 채점 함수, 결과 프로필 매칭입니다.",
+      "whatItIs": "매매 16유형 + 경매 8유형을 가진 부동산 투자성향 테스트입니다. 이번 검증에서 원본의 공유 URL/결과 복원 기능이 빠지면 불합격이라는 점을 확인했습니다.",
       "manual": [
         {
           "phase": "목표 확인",
           "kind": "info",
           "title": "0. 완성 스펙",
-          "code": "완성 결과물:\n- index.html 하나로 작동하는 웹앱\n- 첫 화면: 매매 트랙 / 경매 트랙 선택\n- 매매 트랙: 4축, 16유형\n- 경매 트랙: 3축, 8유형\n- 질문 화면: 2지선다 카드\n- 결과 화면: 유형코드, 유형명, 강점, 약점, 맹점, 활용가이드\n- GitHub Pages로 공개",
-          "note": "이 스펙을 먼저 Claude에게 고정시켜야 결과가 흔들리지 않습니다."
+          "code": "완성 결과물:\n- index.html 하나로 작동하는 웹앱\n- 첫 화면: 매매 트랙 / 경매 트랙 선택\n- 매매 트랙: 4축(RISK/HORIZON/BASIS/CAPITAL), 16질문, 16유형\n- 경매 트랙: 3축(FUND/DIFFICULTY/REGION), 5질문 + 5개 개인화 입력, 8유형\n- 결과 화면: 유형코드, 유형명, 강점, 약점, 맹점, 활용가이드\n- 경매 결과에는 검색조건 JSON 예시\n- 결과 URL 공유/복원 기능: ?r=... 로 새로 열어도 같은 결과 복원\n- GitHub Pages로 공개",
+          "note": "검증 중 빠졌던 기능은 공유 URL/복원입니다. 반드시 완성 스펙에 먼저 넣습니다."
         },
         {
           "phase": "폴더 준비",
@@ -107,6 +107,13 @@
           "title": "7. index.html 만들기",
           "code": "이제 _workspace/02_questions.json, _workspace/02_scoring.md, _workspace/03_profiles.md 를 읽고 index.html 하나로 조립해줘.\n\n필수 구현:\n1. const DATA = {...}\n2. const PROFILES = {...}\n3. scoreTrack(data, answers, profileAnswers) 함수\n4. 시작 화면: 매매/경매 선택\n5. 질문 화면: 진행률 + 선택지 카드\n6. 결과 화면: 유형코드, 유형명, 키워드, 강점/약점/맹점/가이드\n7. \"다시 하기\" 버튼\n\n주의:\n- 외부 빌드도구 없이 index.html만 열면 작동해야 함\n- 모바일보다 강의 화면 16:9에서 보기 좋게\n- 디자인은 기본 다크 UI 정도만, 특정 폰트/브랜드 의존 금지",
           "note": "여기서 처음으로 최종 웹앱을 만듭니다."
+        },
+        {
+          "phase": "기능 보강",
+          "kind": "claude",
+          "title": "8. 공유 URL/결과 복원 기능 추가",
+          "code": "index.html에 결과 공유 기능을 추가해줘.\n\n요구사항:\n- 사용자가 마지막 질문까지 답하면 현재 track과 답변 인덱스를 JSON으로 만들기\n- btoa 또는 URL-safe encoding으로 ?r=... 파라미터에 저장하기\n- history.replaceState로 현재 URL 갱신하기\n- 페이지 로드 시 URLSearchParams에서 r을 읽고 복원하기\n- 복원 성공 시 질문 화면이 아니라 결과 화면을 바로 보여주기\n- 잘못된 r 값이면 조용히 첫 화면으로 돌아가기\n- 다시 하기 버튼은 URL 파라미터를 제거하기",
+          "note": "원본과 맞추려면 이 기능이 필요합니다. 단순 진단 앱만 만들면 불합격입니다."
         },
         {
           "phase": "검수",
@@ -167,6 +174,13 @@
           "title": "13. 완성 주소 확인",
           "code": "https://<내아이디>.github.io/auction_mbti/",
           "note": "이 주소가 열리면 완성입니다."
+        },
+        {
+          "phase": "검증 완료",
+          "kind": "info",
+          "title": "검증 결과: auction_mbti 통과",
+          "code": "빈 폴더 재현 테스트 결과:\n- 트랙 2개 확인\n- 매매 4축/16질문/16유형 확인\n- 경매 3축/5질문/5개 개인화/8유형 확인\n- 결과 화면과 경매 검색조건 JSON 확인\n- ?r=... 결과 URL 생성 확인\n- 새 탭에서 같은 URL을 열었을 때 결과 복원 확인",
+          "note": "이 기준을 만족하지 못하면 설명서대로 만든 것이 아닙니다."
         }
       ]
     },
@@ -175,14 +189,14 @@
       "title": "auction_crawl 정확히 만드는 법",
       "kind": "법원경매 수집기 + 대시보드",
       "liveUrl": "https://friscomike94.github.io/auction-crwal0629/",
-      "whatItIs": "법원경매 사이트에서 물건 목록을 수집해 CSV로 저장하고, docs/index.html 대시보드로 공개합니다. 핵심은 사이트 차단을 뚫는 시행착오를 기록하는 것입니다.",
+      "whatItIs": "법원경매 WebSquare 사이트에서 물건을 수집하는 CLI와, 실패/우회 기록을 skill로 남기고, CSV 결과를 Mono Signal 대시보드로 보여주는 프로젝트입니다.",
       "manual": [
         {
           "phase": "목표 확인",
           "kind": "info",
           "title": "0. 완성 스펙",
-          "code": "완성 결과물:\n- scrape_uijeongbu_apt.py: CLI로 실행하는 스크래퍼\n- auction_list.csv: 수집 결과\n- templates/*.json: 자주 쓰는 검색 조건\n- skill/SKILL.md: 성공/실패 패턴 문서\n- skill/references/trial-and-error.md: 시행착오 기록\n- docs/index.html: CSV를 보여주는 대시보드\n- GitHub Pages: docs 폴더 공개",
-          "note": "이 프로젝트는 \"한 번에 완성\"이 아니라 \"막히는 걸 뚫고 기록\"하는 구조입니다."
+          "code": "완성 결과물:\n- scrape_uijeongbu_apt.py: Playwright 스텔스 모드 기반 CLI 스크래퍼\n- filter_listings.py / filter_from_raw.py: 가격·면적·실제 유찰횟수 후처리\n- debug_dump_raw.py: WebSquare DOM/응답 확인용\n- verify_uijeongbu.py / verify_seoul.py: 조건 검증용\n- templates/*.json: 반복 검색 조건 4개 이상\n- auction_list.csv: 수집 결과 CSV\n- skill/SKILL.md + skill/references/trial-and-error.md + skill/scripts/scrape_auction.py\n- docs/index.html: Mono Signal GitHub Pages 대시보드",
+          "note": "핵심은 “스크래퍼 파일 하나”가 아니라 실패 기록을 skill로 재사용 가능하게 남기는 구조입니다."
         },
         {
           "phase": "폴더 준비",
@@ -218,6 +232,13 @@
           "title": "5. 메인 스크래퍼 파일 만들기",
           "code": "작동한 패턴을 기준으로 scrape_uijeongbu_apt.py를 만들어줘.\n\n필수 기능:\n- argparse로 --court, --sido, --sgg, --lcl, --mcl, --scl, --flbd-min, -o 옵션 지원\n- 기본값: 의정부지방법원 / 아파트 / 유찰 1회 이상\n- 결과 CSV 컬럼: 사건번호, 물건소재지, 감정가, 최저가, 유찰횟수\n- 실행 후 auction_list.csv 저장\n- 에러가 나면 원인을 설명하는 로그 출력",
           "note": "CLI 옵션이 있어야 강의에서 조건을 바꿔 보여줄 수 있습니다."
+        },
+        {
+          "phase": "실패 기록",
+          "kind": "claude",
+          "title": "6. 시행착오 기록을 skill로 저장",
+          "code": "skill 폴더를 만들고 법원경매 스크래핑 시행착오를 저장해줘.\n\n필수 파일:\n- skill/SKILL.md\n- skill/references/trial-and-error.md\n- skill/scripts/scrape_auction.py\n\ntrial-and-error.md에는 반드시 포함:\n1. curl로 HTML만 가져오면 body가 비는 문제\n2. searchControllerMain.on 직접 호출/IP 차단\n3. Playwright 기본 headless에서 WebSquare 버튼 DOM이 안 뜨는 문제\n4. --disable-blink-features=AutomationControlled\n5. navigator.webdriver 제거\n6. networkidle 대신 실제 DOM wait_for_function 사용\n7. CSV 수집 뒤 후처리 필터를 따로 두는 이유",
+          "note": "원본 프로젝트의 강의 가치는 “막힌 지점과 해결 패턴”에 있습니다."
         },
         {
           "phase": "코드",
@@ -296,6 +317,13 @@
           "title": "14. 완성 주소 확인",
           "code": "https://<내아이디>.github.io/auction_crawl/",
           "note": "대시보드가 열리면 완성입니다."
+        },
+        {
+          "phase": "검증 완료",
+          "kind": "info",
+          "title": "검증 결과: auction_crawl 통과",
+          "code": "빈 폴더 재현 테스트 결과:\n- 원본 필수 파일 16개 모두 재현\n- Playwright 스텔스 옵션 확인\n- CLI template 병합 구조 확인\n- COURT_GROUPS 확인\n- filter_listings.py 문법 및 샘플 CSV 후처리 실행 확인\n- skill/references/trial-and-error.md 확인\n- docs/index.html Mono Signal/Pretendard 확인",
+          "note": "원본의 추가 보조 파일은 선택 확장으로 두고, 레시피 필수 조건은 이 16개로 고정했습니다."
         }
       ]
     },
@@ -389,6 +417,13 @@
           "title": "9. 완성 주소 확인",
           "code": "https://<내아이디>.github.io/malso_deck/",
           "note": ""
+        },
+        {
+          "phase": "검증 완료",
+          "kind": "info",
+          "title": "검증 결과: malso_deck 통과",
+          "code": "빈 폴더 재현 테스트 결과:\n- 단일 index.html 구조 확인\n- 10장 슬라이드 확인\n- 16:9 슬라이드 화면 확인\n- 좌우 버튼 확인\n- 키보드 이동 확인\n- 해시 라우팅 확인\n- Mono Signal 계열 다크/라임 스타일 확인",
+          "note": "가장 작은 케이스라 먼저 검증했고, 구조 재현이 가장 안정적입니다."
         }
       ]
     },
@@ -397,14 +432,14 @@
       "title": "apt_report 정확히 만드는 법",
       "kind": "실거래 분석 리포트",
       "liveUrl": "",
-      "whatItIs": "공공데이터포털 API 키로 국토부 실거래 데이터를 수집하고, 분석 결과를 HTML 리포트로 만듭니다. API 키가 0단계입니다.",
+      "whatItIs": "국토부 공공데이터 기반 Claude Code 스킬 2개(realprice-flow, apt-value)를 만드는 프로젝트입니다. 단일 리포트가 아니라 재사용 가능한 스킬 패키지입니다.",
       "manual": [
         {
           "phase": "목표 확인",
           "kind": "info",
           "title": "0. 완성 스펙",
-          "code": "완성 결과물:\n- .env: PUBLIC_DATA_SERVICE_KEY 저장\n- scripts/setup.sh\n- scripts/collect.py: sale.csv/rent.csv 수집\n- scripts/analyze.py: insights.json 생성\n- scripts/build_report.py: report.html 생성\n- references/gotchas.md\n- Private GitHub 저장소(권장)",
-          "note": "외부 API 프로젝트라 키와 보안이 중요합니다."
+          "code": "완성 결과물:\n- .env.example + .gitignore: PUBLIC_DATA_SERVICE_KEY 보안 분리\n- skills/realprice-flow/SKILL.md\n- skills/realprice-flow/references/gotchas.md\n- skills/realprice-flow/scripts/setup.sh, collect.py, analyze.py, build_report.py, report_template.py\n- skills/apt-value/SKILL.md\n- skills/apt-value/references/api.md\n- skills/apt-value/scripts/fetch_complex.py, analyze_value.py, build_report.py\n- docs/previews/realprice-flow-preview.html\n- docs/previews/apt-value-preview.html\n- docs/강의_워크로그.md\n- tmp-preview/flow, tmp-preview/value 샘플 산출물",
+          "note": "이 케이스는 “리포트 하나 만들기”가 아니라 두 개의 Claude Code 스킬을 패키징하는 프로젝트입니다."
         },
         {
           "phase": "API 준비",
@@ -424,6 +459,13 @@
           "title": "2. 폴더와 .env 만들기",
           "code": "mkdir apt_report\ncd apt_report\nmkdir scripts references\necho \"PUBLIC_DATA_SERVICE_KEY=여기에_복사한_키\" > .env\nclaude",
           "note": ".env는 GitHub에 올리면 안 됩니다."
+        },
+        {
+          "phase": "구조 고정",
+          "kind": "claude",
+          "title": "3. 두 스킬 구조를 먼저 고정",
+          "code": "Claude Code에 붙여넣기:\n\n이 프로젝트는 apt_report 하나가 아니라 Claude Code 스킬 2개 패키지야.\n아래 구조를 먼저 만들고, 각 스킬은 독립적으로 실행 가능해야 해.\n\n필수 구조:\nskills/realprice-flow/SKILL.md\nskills/realprice-flow/references/gotchas.md\nskills/realprice-flow/scripts/setup.sh\nskills/realprice-flow/scripts/collect.py\nskills/realprice-flow/scripts/analyze.py\nskills/realprice-flow/scripts/build_report.py\nskills/realprice-flow/scripts/report_template.py\n\nskills/apt-value/SKILL.md\nskills/apt-value/references/api.md\nskills/apt-value/scripts/fetch_complex.py\nskills/apt-value/scripts/analyze_value.py\nskills/apt-value/scripts/build_report.py\n\n루트에는 .env.example, .gitignore, README.md를 둬.\n.env에는 PUBLIC_DATA_SERVICE_KEY를 저장하되 절대 커밋하지 않게 해.",
+          "note": "처음에 이 구조를 못 박지 않으면 scripts 폴더 하나짜리 프로젝트로 흘러갑니다."
         },
         {
           "phase": "설계",
@@ -498,6 +540,13 @@
           "title": "11. 완성",
           "code": "Private repo 안에서 report.html 확인",
           "note": "공개 주소는 없습니다. 공유하려면 preview HTML만 별도로 공개해야 합니다."
+        },
+        {
+          "phase": "검증 완료",
+          "kind": "info",
+          "title": "검증 결과: apt_report 통과",
+          "code": "빈 폴더 재현 테스트 결과:\n- realprice-flow / apt-value 두 스킬 모두 생성 확인\n- .env.example과 .gitignore의 키 보안 구조 확인\n- realprice-flow: collect → analyze → build_report 실행, report.html 생성 확인\n- apt-value: fetch_complex → analyze_value → build_report 실행, report.html 생성 확인\n- 두 preview HTML에 Mono Signal 라임/다크 스타일 확인\n- 원본 필수 파일과 파이프라인 매칭 확인",
+          "note": "API 키 없이 샘플 데이터로 파이프라인을 검증하고, 실제 수집 단계는 data.go.kr 키가 있을 때 실행합니다."
         }
       ]
     }
